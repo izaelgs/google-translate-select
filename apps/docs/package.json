@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@google-translate-select/constants": "workspace:*",
-    "@google-translate-select/vue3": "workspace:*"
+    "vue3-translate-select": "workspace:*"
   },
   "devDependencies": {
     "vitepress": "1.0.0-alpha.35"

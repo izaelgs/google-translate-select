@@ -1,4 +1,4 @@
-# @google-translate-select/vue3
+# vue3-translate-select
 
 🚀 The package offer vue3 library for @google-translate-select!
 

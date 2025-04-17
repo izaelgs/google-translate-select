@@ -65,6 +65,7 @@
 import {
   computed,
   defineComponent,
+  defineExpose,
   onBeforeUnmount,
   onMounted,
   ref,
@@ -172,7 +173,9 @@ export default defineComponent({
      */
     function createScript() {
       return createScriptTag(
-        `${GOOGLE_TRANSLATE_JSSDK_URL}?cb=${unref(jsonCallbackFnName)}`
+        props.googleScriptUrl.length
+          ? `${props.googleScriptUrl}?cb=${unref(jsonCallbackFnName)}`
+          : `${GOOGLE_TRANSLATE_JSSDK_URL}?cb=${unref(jsonCallbackFnName)}`
       )
     }
 
@@ -454,6 +457,13 @@ export default defineComponent({
       }
       if (props.trigger === 'click')
         document.removeEventListener('click', handleDropdownShowOrHideByClick)
+    })
+
+    defineExpose({
+      setLanguage: (code: string) => {
+        handleTranslate(code)
+      },
+      handleTranslate,
     })
 
     return {

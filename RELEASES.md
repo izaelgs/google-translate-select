@@ -25,7 +25,7 @@ We use the fixed packages approach from changeset on all our component packages,
 
 > Fixed packages allow you to specify a group or groups of packages that should be versioned and published together.
 
-So when any component package receives a patch, minor or major version change, it will also update the version of all the other packages and update their version on the dependencies list, so for example when using `@google-translate-select/vue3@0.0.1` all packages used by it will also be the version `0.0.1`.
+So when any component package receives a patch, minor or major version change, it will also update the version of all the other packages and update their version on the dependencies list, so for example when using `vue3-translate-select@0.0.1` all packages used by it will also be the version `0.0.1`.
 
 You can read more about fixed version on changeset [here](https://github.com/changesets/changesets/blob/main/docs/fixed-packages.md).
 

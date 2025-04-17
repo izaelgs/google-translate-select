@@ -5,7 +5,7 @@ page: true
 ---
 
 <script setup>
-import GoogleTranslateSelect from '@google-translate-select/vue3';
+import GoogleTranslateSelect from 'vue3-translate-select';
 
 const handleGoogleTranslateSelect = (language) => {
   console.log(language)
@@ -43,9 +43,9 @@ pnpm add @google-translate-select/vue2
 ```
 
 ```bash [vue3]
-pnpm add @google-translate-select/vue3
-# yarn add @google-translate-select/vue3
-# npm install @google-translate-select/vue3
+pnpm add vue3-translate-select
+# yarn add vue3-translate-select
+# npm install vue3-translate-select
 ```
 
 ```bash [react]
@@ -95,7 +95,7 @@ export default Vue.extend({
   />
 </template>
 <script setup lang="ts">
-import GoogleTranslateSelect from '@google-translate-select/vue3';
+import GoogleTranslateSelect from 'vue3-translate-select';
 
 const handleGoogleTranslateSelect = (language: any) => {
   console.log(language)
@@ -104,7 +104,7 @@ const handleGoogleTranslateSelect = (language: any) => {
 ```
 
 ```tsx{2-5,7-13} [react]
-import GoogleTranslateSelect from '@google-translate-select/vue3';
+import GoogleTranslateSelect from 'vue3-translate-select';
 
 function App() {
   const handleGoogleTranslateSelect = (language: any) => {

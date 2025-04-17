@@ -7,7 +7,8 @@
     "packages/*/src/**/*",
     "packages/*/package.json",
     "packages/*/typings/**/*",
-    "typings/env.d.ts"
+    "typings/env.d.ts",
+    "packages/utils/dist/element.js"
   ],
   "exclude": [
     "node_modules",

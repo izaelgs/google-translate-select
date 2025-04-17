@@ -44,6 +44,10 @@ export const googleTranslateProps = {
     type: String as PropType<'click' | 'hover'>,
     default: 'hover',
   },
+  googleScriptUrl: {
+    type: String,
+    default: '',
+  },
 } as const
 
 export type GoogleTranslateProps = ExtractPropTypes<typeof googleTranslateProps>

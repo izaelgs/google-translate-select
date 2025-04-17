@@ -10,7 +10,8 @@
     "packages/*/typings/**/*",
     "typings/env.d.ts",
     "packages/**/__tests__/**/*",
-    "packages/**/tests/**/*"
+    "packages/**/tests/**/*",
+    "packages/utils/dist/element.js"
   ],
   "exclude": ["node_modules", "**/dist", "**/*.md"]
 }

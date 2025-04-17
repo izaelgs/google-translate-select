@@ -42,7 +42,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@google-translate-select/vue3": "workspace:*",
+    "vue3-translate-select": "workspace:*",
     "vue": "^3.2.41"
   },
   "devDependencies": {

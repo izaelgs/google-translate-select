@@ -1,4 +1,4 @@
-# @google-translate-select/vue3
+# vue3-translate-select
 
 ## 0.1.9
 
