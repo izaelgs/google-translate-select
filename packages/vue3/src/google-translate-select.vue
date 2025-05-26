@@ -275,6 +275,14 @@ export default defineComponent({
       const googleTranslateSelectEl = document.querySelector(`.${ns.b()}`)
 
       if (
+        selectValue == props.defaultLanguageCode &&
+        selectedLanguageCode.value &&
+        selectValue != selectedLanguageCode.value
+      ) {
+        window.location.reload()
+      }
+
+      if (
         !googleTranslateSelectEl ||
         !googleTranslateOriginalSelectEl ||
         googleTranslateSelectEl.innerHTML.length === 0 ||
@@ -460,9 +468,6 @@ export default defineComponent({
     })
 
     defineExpose({
-      setLanguage: (code: string) => {
-        handleTranslate(code)
-      },
       handleTranslate,
     })
 
