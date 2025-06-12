@@ -112,7 +112,7 @@ importers:
       '@google-translate-select/constants':
         specifier: workspace:*
         version: link:../../packages/constants
-      '@google-translate-select/vue3':
+      vue3-translate-select:
         specifier: workspace:*
         version: link:../../packages/vue3
     devDependencies:
@@ -181,12 +181,12 @@ importers:
 
   apps/playground-vue3:
     dependencies:
-      '@google-translate-select/vue3':
-        specifier: workspace:*
-        version: link:../../packages/vue3
       vue:
         specifier: ^3.2.41
         version: 3.2.45
+      vue3-translate-select:
+        specifier: workspace:*
+        version: link:../../packages/vue3
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^4.0.0

@@ -1,63 +1,93 @@
 <template>
-  <div
-    v-if="hasLanguages"
-    ref="googleTranslateSelectEl"
-    :class="getClass"
-    @mouseenter="handleDropdownShowByHover"
-    @mouseleave="handleDropdownHideByHover"
-  >
-    <div :class="[ns.b('dropdown')]">
-      <div :class="[ns.be('dropdown', 'activator')]">
-        <div :class="[ns.b('language')]">
-          <div :class="[ns.b('flag')]">
-            <div :class="[ns.be('flag', selectedLanguageOption.code)]" />
+  <template v-if="type === 'dropdown'">
+    <div
+      v-if="hasLanguages"
+      ref="googleTranslateSelectEl"
+      :class="getClass"
+      @mouseenter="handleDropdownShowByHover"
+      @mouseleave="handleDropdownHideByHover"
+    >
+      <div :class="[ns.b('dropdown')]">
+        <div :class="[ns.be('dropdown', 'activator')]">
+          <div :class="[ns.b('language')]">
+            <div :class="[ns.b('flag')]">
+              <div :class="[ns.be('flag', selectedLanguageOption.code)]" />
+            </div>
+            {{ selectedLanguageOption.name }}
           </div>
-          {{ selectedLanguageOption.name }}
+          <div
+            v-if="showArrow"
+            :class="[ns.b('icon'), visible ? ns.is('reverse') : '']"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+              <path
+                fill="currentColor"
+                d="M831.872 340.864 512 652.672 192.128 340.864a30.592 30.592 0 0 0-42.752 0 29.12 29.12 0 0 0 0 41.6L489.664 714.24a32 32 0 0 0 44.672 0l340.288-331.712a29.12 29.12 0 0 0 0-41.728 30.592 30.592 0 0 0-42.752 0z"
+              />
+            </svg>
+          </div>
         </div>
-        <div
-          v-if="showArrow"
-          :class="[ns.b('icon'), visible ? ns.is('reverse') : '']"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-            <path
-              fill="currentColor"
-              d="M831.872 340.864 512 652.672 192.128 340.864a30.592 30.592 0 0 0-42.752 0 29.12 29.12 0 0 0 0 41.6L489.664 714.24a32 32 0 0 0 44.672 0l340.288-331.712a29.12 29.12 0 0 0 0-41.728 30.592 30.592 0 0 0-42.752 0z"
-            />
-          </svg>
-        </div>
-      </div>
-      <transition name="google-translate-select-zoom-in-top">
-        <div
-          v-show="visible"
-          :class="[ns.be('dropdown', 'menu'), dropdownClassName]"
-          :style="dropdownStyle"
-        >
-          <ul>
-            <li
-              v-for="language in languages"
-              :key="`language-${language.code}`"
-              :class="[
-                ns.be('dropdown', 'menu__item'),
-                hoveredLanguageCode === language.code ? 'hover' : '',
-                selectedLanguageCode === language.code ? 'selected' : '',
-              ]"
-              :data-language-code="language.code"
-              @click="() => handleTranslate(language.code)"
-              @mouseenter.stop="() => (hoveredLanguageCode = language.code)"
-              @mouseleave.stop="() => (hoveredLanguageCode = '')"
-            >
-              <div :class="[ns.b('language')]">
-                <div :class="[ns.b('flag')]">
-                  <div :class="[ns.be('flag', language.code)]" />
+        <transition name="google-translate-select-zoom-in-top">
+          <div
+            v-show="visible"
+            :class="[ns.be('dropdown', 'menu'), dropdownClassName]"
+            :style="dropdownStyle"
+          >
+            <ul>
+              <li
+                v-for="language in languages"
+                :key="`language-${language.code}`"
+                :class="[
+                  ns.be('dropdown', 'menu__item'),
+                  hoveredLanguageCode === language.code ? 'hover' : '',
+                  selectedLanguageCode === language.code ? 'selected' : '',
+                ]"
+                :data-language-code="language.code"
+                @click="() => handleTranslate(language.code)"
+                @mouseenter.stop="() => (hoveredLanguageCode = language.code)"
+                @mouseleave.stop="() => (hoveredLanguageCode = '')"
+              >
+                <div :class="[ns.b('language')]">
+                  <div :class="[ns.b('flag')]">
+                    <div :class="[ns.be('flag', language.code)]" />
+                  </div>
+                  {{ language.name }}
                 </div>
-                {{ language.name }}
-              </div>
-            </li>
-          </ul>
-        </div>
-      </transition>
+              </li>
+            </ul>
+          </div>
+        </transition>
+      </div>
     </div>
-  </div>
+  </template>
+  <template v-else>
+    <div v-if="hasLanguages" ref="googleTranslateSelectEl" :class="getClass">
+      <div :class="[ns.b('list')]">
+        <ul :class="[ns.be('list', 'items')]">
+          <li
+            v-for="language in languages"
+            :key="`language-${language.code}`"
+            :class="[
+              ns.be('list', 'item'),
+              hoveredLanguageCode === language.code ? 'hover' : '',
+              selectedLanguageCode === language.code ? 'selected' : '',
+            ]"
+            :data-language-code="language.code"
+            @click="() => handleTranslate(language.code)"
+            @mouseenter.stop="() => (hoveredLanguageCode = language.code)"
+            @mouseleave.stop="() => (hoveredLanguageCode = '')"
+          >
+            <div :class="[ns.b('language')]">
+              <div :class="[ns.b('flag')]">
+                <div :class="[ns.be('flag', language.code)]" />
+              </div>
+              {{ language.name }}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </template>
   <div :id="GOOGLE_TRANSLATE_ORIGINAL_DOM_ID" />
 </template>
 
@@ -279,7 +309,11 @@ export default defineComponent({
         selectedLanguageCode.value &&
         selectValue != selectedLanguageCode.value
       ) {
-        window.location.reload()
+        // const reloadEvent = new Event('reload')
+
+        // window.dispatchEvent(reloadEvent)
+        console.log('reload')
+        props.reload()
       }
 
       if (
@@ -488,3 +522,54 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+.google-translate-select {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.google-translate-select__list {
+  padding: 6px 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.google-translate-select__list--items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.google-translate-select__list--item {
+  font-size: 14px;
+  padding: 0 20px;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #606266;
+  height: 34px;
+  line-height: 34px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.google-translate-select__list--item.hover,
+.google-translate-select__list--item:hover {
+  background-color: #f5f7fa;
+}
+
+.google-translate-select__list--item.selected {
+  color: #409eff;
+  font-weight: 700;
+}
+
+.google-translate-select__language {
+  display: flex;
+  align-items: center;
+}
+</style>

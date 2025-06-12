@@ -48,6 +48,16 @@ export const googleTranslateProps = {
     type: String,
     default: '',
   },
+  reload: {
+    type: Function as PropType<() => void>,
+    default: () => {
+      console.log('reload is not defined')
+    },
+  },
+  type: {
+    type: String as PropType<'dropdown' | 'list'>,
+    default: 'dropdown',
+  },
 } as const
 
 export type GoogleTranslateProps = ExtractPropTypes<typeof googleTranslateProps>

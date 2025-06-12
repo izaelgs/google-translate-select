@@ -42,8 +42,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue3-translate-select": "workspace:*",
-    "vue": "^3.2.41"
+    "vue": "^3.2.41",
+    "vue3-translate-select": "workspace:*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
