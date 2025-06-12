@@ -532,19 +532,19 @@ export default defineComponent({
   background-color: #fff;
 }
 
-.google-translate-select__list {
+.google-translate-select-list {
   padding: 6px 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-.google-translate-select__list--items {
+.google-translate-select-list__items {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.google-translate-select__list--item {
+.google-translate-select-list__item {
   font-size: 14px;
   padding: 0 20px;
   position: relative;
@@ -558,17 +558,17 @@ export default defineComponent({
   cursor: pointer;
 }
 
-.google-translate-select__list--item.hover,
-.google-translate-select__list--item:hover {
+.google-translate-select-list__item.hover,
+.google-translate-select-list__item:hover {
   background-color: #f5f7fa;
 }
 
-.google-translate-select__list--item.selected {
+.google-translate-select-list__item.selected {
   color: #409eff;
   font-weight: 700;
 }
 
-.google-translate-select__language {
+.google-translate-select-language {
   display: flex;
   align-items: center;
 }
