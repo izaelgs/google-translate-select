@@ -14,6 +14,7 @@ const handleGoogleTranslateSelect = (language: any) => {
     default-language-code="en"
     default-page-language-code="zh-CN"
     :fetch-browser-language="false"
+    type="carousel"
     @select="handleGoogleTranslateSelect"
   />
 

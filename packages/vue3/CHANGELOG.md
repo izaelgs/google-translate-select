@@ -1,5 +1,11 @@
 # vue3-translate-select
 
+## 0.2.34
+
+### Patch Changes
+
+- Update vue3-translate-select package
+
 ## 0.1.9
 
 ### Patch Changes

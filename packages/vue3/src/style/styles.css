@@ -1,0 +1,115 @@
+.google-translate-select {
+  display: inline-block;
+  vertical-align: top;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.google-translate-select-list {
+  padding: 6px 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.google-translate-select-list__items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.google-translate-select-list__item {
+  font-size: 14px;
+  padding: 0 20px;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #606266;
+  height: 34px;
+  line-height: 34px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.google-translate-select-list__item.hover,
+.google-translate-select-list__item:hover {
+  background-color: #f5f7fa;
+}
+
+.google-translate-select-list__item.selected {
+  color: #409eff;
+  font-weight: 700;
+}
+
+.google-translate-select-language {
+  display: flex;
+  align-items: center;
+}
+
+.google-translate-select-carousel {
+  padding: 12px 16px;
+  min-height: 40px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.google-translate-select-carousel:hover {
+  background-color: #f5f7fa;
+}
+
+.google-translate-select-carousel:focus {
+  outline: 2px solid #409eff;
+  outline-offset: 2px;
+  background-color: #f5f7fa;
+}
+
+.google-translate-select-carousel.is-animating {
+  pointer-events: none;
+}
+
+.google-translate-select-carousel__container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.google-translate-select-carousel__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.google-translate-select-carousel__hint {
+  font-size: 11px;
+  color: #909399;
+  opacity: 0.8;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Slide transition animations */
+.google-translate-select-slide-enter-active,
+.google-translate-select-slide-leave-active {
+  transition: all 0.3s ease;
+}
+
+.google-translate-select-slide-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.google-translate-select-slide-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.google-translate-select-slide-enter-to,
+.google-translate-select-slide-leave-from {
+  transform: translateX(0);
+  opacity: 1;
+}

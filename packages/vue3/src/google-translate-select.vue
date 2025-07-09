@@ -60,7 +60,7 @@
       </div>
     </div>
   </template>
-  <template v-else>
+  <template v-else-if="type === 'list'">
     <div v-if="hasLanguages" ref="googleTranslateSelectEl" :class="getClass">
       <div :class="[ns.b('list')]">
         <ul :class="[ns.be('list', 'items')]">
@@ -85,6 +85,37 @@
             </div>
           </li>
         </ul>
+      </div>
+    </div>
+  </template>
+  <template v-else-if="type === 'carousel'">
+    <div v-if="hasLanguages" ref="googleTranslateSelectEl" :class="getClass">
+      <div
+        :class="[ns.b('carousel'), { 'is-animating': isAnimating }]"
+        tabindex="0"
+        role="button"
+        :aria-label="`Current language: ${selectedLanguageOption.name}. Press right arrow to switch to next language`"
+        @keydown="handleKeyDown"
+        @click="handleNextLanguage"
+      >
+        <div :class="[ns.be('carousel', 'container')]">
+          <transition name="google-translate-select-slide" mode="out-in">
+            <div
+              :key="selectedLanguageOption.code"
+              :class="[ns.be('carousel', 'item')]"
+            >
+              <div :class="[ns.b('language')]">
+                <div :class="[ns.b('flag')]">
+                  <div :class="[ns.be('flag', selectedLanguageOption.code)]" />
+                </div>
+                {{ selectedLanguageOption.name }}
+              </div>
+              <div :class="[ns.be('carousel', 'hint')]">
+                Press → to switch language
+              </div>
+            </div>
+          </transition>
+        </div>
       </div>
     </div>
   </template>
@@ -146,6 +177,7 @@ export default defineComponent({
     const htmlAttrLangObserve = ref<Partial<UseMutationObserverReturn> | null>(
       {}
     )
+    const isAnimating = ref<boolean>(false)
 
     const getClass = computed(() => {
       return [ns.b(), GOOGLE_TRANSLATE_STOP_TRANSLATE_CLASSNAME, attrs.class]
@@ -477,12 +509,53 @@ export default defineComponent({
       }
     }
 
+    function handleKeyDown(e: KeyboardEvent) {
+      if (props.type === 'carousel') {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault()
+          handleNextLanguage()
+        }
+      }
+    }
+
+    function handleNextLanguage() {
+      if (!props.languages.length || isAnimating.value) return
+
+      const currentIndex = props.languages.findIndex(
+        (language) => language.code === selectedLanguageCode.value
+      )
+
+      // If current language not found, start from first language
+      if (currentIndex === -1) {
+        handleTranslate(props.languages[0].code)
+        return
+      }
+
+      // If it's the last language, go to first; otherwise go to next
+      const nextIndex =
+        currentIndex === props.languages.length - 1 ? 0 : currentIndex + 1
+
+      // Set animation state
+      isAnimating.value = true
+
+      // Handle translate with animation delay
+      setTimeout(() => {
+        handleTranslate(props.languages[nextIndex].code)
+        setTimeout(() => {
+          isAnimating.value = false
+        }, 300) // Animation duration
+      }, 50)
+    }
+
     onMounted(() => {
       createGoogleTranslate()
       createHtmlAttrLangObserve()
 
       if (props.trigger === 'click')
         document.addEventListener('click', handleDropdownShowOrHideByClick)
+
+      if (props.type === 'carousel')
+        document.addEventListener('keydown', handleKeyDown)
     })
 
     onBeforeUnmount(() => {
@@ -499,6 +572,9 @@ export default defineComponent({
       }
       if (props.trigger === 'click')
         document.removeEventListener('click', handleDropdownShowOrHideByClick)
+
+      if (props.type === 'carousel')
+        document.removeEventListener('keydown', handleKeyDown)
     })
 
     defineExpose({
@@ -511,65 +587,17 @@ export default defineComponent({
       visible,
       selectedLanguageCode,
       hoveredLanguageCode,
+      isAnimating,
       getClass,
       hasLanguages,
       selectedLanguageOption,
       handleTranslate,
       handleDropdownShowByHover,
       handleDropdownHideByHover,
+      handleKeyDown,
+      handleNextLanguage,
       GOOGLE_TRANSLATE_ORIGINAL_DOM_ID,
     }
   },
 })
 </script>
-
-<style scoped>
-.google-translate-select {
-  display: inline-block;
-  vertical-align: top;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  background-color: #fff;
-}
-
-.google-translate-select-list {
-  padding: 6px 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-.google-translate-select-list__items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.google-translate-select-list__item {
-  font-size: 14px;
-  padding: 0 20px;
-  position: relative;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #606266;
-  height: 34px;
-  line-height: 34px;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-
-.google-translate-select-list__item.hover,
-.google-translate-select-list__item:hover {
-  background-color: #f5f7fa;
-}
-
-.google-translate-select-list__item.selected {
-  color: #409eff;
-  font-weight: 700;
-}
-
-.google-translate-select-language {
-  display: flex;
-  align-items: center;
-}
-</style>

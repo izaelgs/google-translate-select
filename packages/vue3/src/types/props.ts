@@ -55,7 +55,7 @@ export const googleTranslateProps = {
     },
   },
   type: {
-    type: String as PropType<'dropdown' | 'list'>,
+    type: String as PropType<'dropdown' | 'list' | 'carousel'>,
     default: 'dropdown',
   },
 } as const
