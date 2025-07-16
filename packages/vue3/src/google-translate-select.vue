@@ -94,21 +94,21 @@
         :class="[ns.b('carousel'), { 'is-animating': isAnimating }]"
         tabindex="0"
         role="button"
-        :aria-label="`Current language: ${selectedLanguageOption.name}. Press right arrow to switch to next language`"
+        :aria-label="`Current language: ${selectedLanguageOption.name}. Press right arrow to switch to next language: ${nextLanguageOption.name}`"
         @keydown="handleKeyDown"
         @click="handleNextLanguage"
       >
         <div :class="[ns.be('carousel', 'container')]">
           <transition name="google-translate-select-slide" mode="out-in">
             <div
-              :key="selectedLanguageOption.code"
+              :key="nextLanguageOption.code"
               :class="[ns.be('carousel', 'item')]"
             >
               <div :class="[ns.b('language')]">
                 <div :class="[ns.b('flag')]">
-                  <div :class="[ns.be('flag', selectedLanguageOption.code)]" />
+                  <div :class="[ns.be('flag', nextLanguageOption.code)]" />
                 </div>
-                {{ selectedLanguageOption.name }}
+                {{ nextLanguageOption.name }}
               </div>
               <div :class="[ns.be('carousel', 'hint')]">
                 Press → to switch language
@@ -190,6 +190,9 @@ export default defineComponent({
     /** cache current select language */
     const selectedLanguageOption = computed(() => getSelectedLanguageOption())
 
+    /** cache next language for carousel mode */
+    const nextLanguageOption = computed(() => getNextLanguageOption())
+
     /**
      * get current select language
      */
@@ -205,6 +208,28 @@ export default defineComponent({
         )
         return defaultSelectedLanguageOption!
       }
+    }
+
+    /**
+     * get next language for carousel mode
+     */
+    function getNextLanguageOption() {
+      if (!props.languages.length) return props.languages[0]
+
+      const currentIndex = props.languages.findIndex(
+        (language) => language.code === unref(selectedLanguageCode)
+      )
+
+      // If current language not found, return first language
+      if (currentIndex === -1) {
+        return props.languages[0]
+      }
+
+      // If it's the last language, return first; otherwise return next
+      const nextIndex =
+        currentIndex === props.languages.length - 1 ? 0 : currentIndex + 1
+
+      return props.languages[nextIndex]
     }
 
     /**
@@ -591,6 +616,7 @@ export default defineComponent({
       getClass,
       hasLanguages,
       selectedLanguageOption,
+      nextLanguageOption,
       handleTranslate,
       handleDropdownShowByHover,
       handleDropdownHideByHover,
